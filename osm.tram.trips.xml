@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- generated on 2023-02-19 19:06:56.410542 by osmWebWizard.py v1_15_0+0002-e6790248698
+<configuration>
+    <end value="3600"/>
+    <fringe-factor value="20"/>
+    <fringe-start-attributes value="departSpeed=&quot;max&quot;"/>
+    <insertion-density value="2.0"/>
+    <min-distance.fringe value="10.0"/>
+    <min-distance value="1200.0"/>
+    <net-file value="C:\Users\gueye\Sumo\2023-02-19-18-57-45\osm.net.xml.gz"/>
+    <remove-loops value="True"/>
+    <route-file value="C:\Users\gueye\Sumo\2023-02-19-18-57-45\osm.tram.rou.xml"/>
+    <trip-attributes value="departLane=&quot;best&quot;"/>
+    <output-trip-file value="C:\Users\gueye\Sumo\2023-02-19-18-57-45\osm.tram.trips.xml"/>
+    <prefix value="tram"/>
+    <validate value="True"/>
+    <vclass value="tram"/>
+    <vehicle-class value="tram"/>
+</configuration>
+-->
+
+<!-- generated on 2023-02-19 19:06:56 by Eclipse SUMO duarouter Version 1.15.0
+<configuration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/duarouterConfiguration.xsd">
+
+    <input>
+        <net-file value="C:\Users\gueye\Sumo\2023-02-19-18-57-45\osm.net.xml.gz"/>
+        <route-files value="C:\Users\gueye\Sumo\2023-02-19-18-57-45\osm.tram.trips.xml"/>
+    </input>
+
+    <output>
+        <output-file value="C:\Users\gueye\Sumo\2023-02-19-18-57-45\osm.tram.trips.xml.tmp"/>
+        <alternatives-output value="NUL"/>
+        <write-trips value="true"/>
+    </output>
+
+    <processing>
+        <remove-loops value="true"/>
+    </processing>
+
+    <time>
+        <begin value="0"/>
+        <end value="3600"/>
+    </time>
+
+    <report>
+        <no-warnings value="true"/>
+        <ignore-errors value="true"/>
+        <no-step-log value="true"/>
+    </report>
+
+</configuration>
+-->
+
+<routes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/routes_file.xsd">
+    <vType id="tram_tram" vClass="tram"/>
+    <trip id="tram0" type="tram_tram" depart="0.00" departLane="best" from="575295082#0" to="575295082#0"/>
+    <trip id="tram2" type="tram_tram" depart="299.60" departLane="best" from="537761430#0" to="537761430#0"/>
+    <trip id="tram3" type="tram_tram" depart="449.40" departLane="best" from="263557878#10" to="263557878#36"/>
+    <trip id="tram4" type="tram_tram" depart="599.20" departLane="best" departSpeed="max" from="303674884#0" to="537761434#30"/>
+    <trip id="tram7" type="tram_tram" depart="1048.59" departLane="best" from="575295082#34" to="575295082#34"/>
+    <trip id="tram9" type="tram_tram" depart="1348.19" departLane="best" from="575295076#1" to="264565628#2"/>
+    <trip id="tram15" type="tram_tram" depart="2246.98" departLane="best" departSpeed="max" from="303674884#0" to="303674884#0"/>
+    <trip id="tram17" type="tram_tram" depart="2546.58" departLane="best" departSpeed="max" from="696689652#0" to="264565628#2"/>
+    <trip id="tram21" type="tram_tram" depart="3145.78" departLane="best" from="263557878#31" to="263557878#31"/>
+</routes>

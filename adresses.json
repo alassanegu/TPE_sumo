@@ -1,0 +1,59 @@
+{
+    "adresses": [
+        {
+            "adresse": "Hub",
+            "latitude": 49.5064,
+            "longitude": 0.11755
+        },
+        {
+            "adresse": "Cantine 1",
+            "latitude": 49.48447,
+            "longitude": 0.11338
+        },
+        {
+            "adresse": "Cantine 2",
+            "latitude": 49.49254,
+            "longitude": 0.14121
+        },
+        {
+            "adresse": "Cantine 3",
+            "latitude": 49.49722,
+            "longitude": 0.1126
+        },
+        {
+            "adresse": "Cantine 4",
+            "latitude": 49.49548,
+            "longitude": 0.09746
+        },
+        {
+            "adresse": "Cantine 5",
+            "latitude": 49.5005,
+            "longitude": 0.13988
+        },
+        {
+            "adresse": "Cantine 6",
+            "latitude": 49.50774,
+            "longitude": 0.09122
+        },
+        {
+            "adresse": "Cantine 7",
+            "latitude": 49.49633,
+            "longitude": 0.10165
+        },
+        {
+            "adresse": "Cantine 8",
+            "latitude": 49.49517,
+            "longitude": 0.15255
+        },
+        {
+            "adresse": "Cantine 9",
+            "latitude": 49.49943,
+            "longitude": 0.14325
+        },
+        {
+            "adresse": "Cantine 10",
+            "latitude": 49.48623,
+            "longitude": 0.12401
+        }
+    ]
+}
