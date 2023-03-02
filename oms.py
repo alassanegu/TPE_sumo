@@ -87,76 +87,181 @@ with open("edge.json") as f:
     data_edge = json.load(f)
 
 
-route_hub_cantine_1 = []
+
+
+#pour v1
+route_hub_cantine_6 = []
+route_cantine_6_cantine_10 = []
+route_cantine_10_cantine_8 = []
+route_cantine_8_cantine_4 = []
+route_cantine_4_hub = []
+#pour v2
+route_hub_cantine_7 = []
+route_cantine_7_cantine_2 = []
+route_cantine_2_cantine_1 = []
+route_cantine_1_hub = []
+#pour v3
+route_hub_cantine_9 = []
+route_cantine_9_cantine_5 = []
+route_cantine_5_cantine_3 = []
+route_cantine_3_hub = []
+
+
 hub_edge_id = ""
 cantine1_edge_id = ""
+cantine2_edge_id = ""
+cantine3_edge_id = ""
+cantine4_edge_id = ""
+cantine5_edge_id = ""
+cantine6_edge_id = ""
+cantine7_edge_id = ""
+cantine8_edge_id = ""
+cantine9_edge_id = ""
+cantine10_edge_id = ""
 # Parcourir les edges et récupérer les edges correspondantes
 for edge in data_edge['edges']:
     if edge["adresse"] == "Hub":
         hub_edge_id = edge["edge_id"]
     elif edge["adresse"] == "Cantine 1":
         cantine1_edge_id = edge["edge_id"]
-    # elif edge["adresse"] == "Cantine 2":
-    #     cantine1_edge_id = edge["edge_id"]
-    # elif edge["adresse"] == "Cantine 3":
-    #     cantine1_edge_id = edge["edge_id"]
-    # elif edge["adresse"] == "Cantine 4":
-    #     cantine1_edge_id = edge["edge_id"]
-    # elif edge["adresse"] == "Cantine 5":
-    #     cantine1_edge_id = edge["edge_id"]
-    # elif edge["adresse"] == "Cantine 6":
-    #     cantine1_edge_id = edge["edge_id"]
-    # elif edge["adresse"] == "Cantine 7":
-    #     cantine1_edge_id = edge["edge_id"]
-    # elif edge["adresse"] == "Cantine 8":
-    #     cantine1_edge_id = edge["edge_id"]
-    # elif edge["adresse"] == "Cantine 9":
-    #     cantine1_edge_id = edge["edge_id"]
-    # elif edge["adresse"] == "Cantine 10":
-    #     cantine1_edge_id = edge["edge_id"]
+    elif edge["adresse"] == "Cantine 2":
+        cantine2_edge_id = edge["edge_id"]
+    elif edge["adresse"] == "Cantine 3":
+        cantine3_edge_id = edge["edge_id"]
+    elif edge["adresse"] == "Cantine 4":
+        cantine4_edge_id = edge["edge_id"]
+    elif edge["adresse"] == "Cantine 5":
+        cantine5_edge_id = edge["edge_id"]
+    elif edge["adresse"] == "Cantine 6":
+        cantine6_edge_id = edge["edge_id"]
+    elif edge["adresse"] == "Cantine 7":
+        cantine7_edge_id = edge["edge_id"]
+    elif edge["adresse"] == "Cantine 8":
+        cantine8_edge_id = edge["edge_id"]
+    elif edge["adresse"] == "Cantine 9":
+        cantine9_edge_id = edge["edge_id"]
+    elif edge["adresse"] == "Cantine 10":
+        cantine10_edge_id = edge["edge_id"]
 
-route_hub_cantine_1 = traci.simulation.findRoute(hub_edge_id, cantine1_edge_id)
+#POUR V1
+route_hub_cantine_6 = traci.simulation.findRoute(hub_edge_id, cantine6_edge_id)
+route_cantine_6_cantine_10 = traci.simulation.findRoute( cantine6_edge_id,cantine10_edge_id)
+route_cantine_10_cantine_8 = traci.simulation.findRoute( cantine10_edge_id,cantine8_edge_id)
+route_cantine_8_cantine_4 = traci.simulation.findRoute( cantine8_edge_id,cantine4_edge_id)
+route_cantine_4_hub = traci.simulation.findRoute( cantine4_edge_id, hub_edge_id)
 
-# routes = []
-# # Récupérer la liste des edges de la route
-# edges_route = route_hub_cantine_1.edges
-#
-# routes.append({'route': "route_hub_cantine_1", 'edges': edges_route})
-#
+# print(route_hub_cantine_6)
+# print(route_cantine_6_cantine_10)
+# print(route_cantine_10_cantine_8)
+# print(route_cantine_8_cantine_4)
+# print(route_cantine_4_hub)
+#POUR V2
+route_hub_cantine_7 = traci.simulation.findRoute(hub_edge_id, cantine7_edge_id)
+route_cantine_7_cantine_2 = traci.simulation.findRoute( cantine7_edge_id,cantine2_edge_id)
+route_cantine_2_cantine_1 = traci.simulation.findRoute( cantine2_edge_id,cantine1_edge_id)
+route_cantine_1_hub = traci.simulation.findRoute( cantine1_edge_id, hub_edge_id)
+
+#POUR V3
+route_hub_cantine_9 = traci.simulation.findRoute(hub_edge_id, cantine9_edge_id)
+route_cantine_9_cantine_5 = traci.simulation.findRoute(cantine9_edge_id, cantine5_edge_id)
+route_cantine_5_cantine_3 = traci.simulation.findRoute(cantine5_edge_id, cantine3_edge_id)
+route_cantine_3_hub = traci.simulation.findRoute(cantine3_edge_id, hub_edge_id)
+
+
+
+
+
+
+routes = []
+tournees = []
+# Récupérer la liste des edges de la route
+#POUR V1
+edges_hub_cantine_6 = route_hub_cantine_6.edges
+edges_cantine_6_cantine_10 = route_cantine_6_cantine_10.edges
+edges_cantine_10_cantine_8 = route_cantine_10_cantine_8.edges
+edges_cantine_8_cantine_4 = route_cantine_8_cantine_4.edges
+edges_cantine_4_hub = route_cantine_4_hub.edges
+
+routes.append({'route': "route_hub_cantine_6", 'edges': edges_hub_cantine_6})
+routes.append({'route': "route_cantine_6_cantine_10", 'edges': edges_cantine_6_cantine_10})
+routes.append({'route': "route_cantine_10_cantine_8", 'edges': edges_cantine_10_cantine_8})
+routes.append({'route': "route_cantine_8_cantine_4", 'edges': edges_cantine_8_cantine_4})
+routes.append({'route': "route_cantine_4_hub", 'edges': edges_cantine_4_hub})
+
+edges_v1 =edges_hub_cantine_6 + edges_cantine_6_cantine_10 + edges_cantine_10_cantine_8 + edges_cantine_8_cantine_4 + edges_cantine_4_hub
+tournees.append({'tournee': "tournee_v1", 'edges': edges_v1})
+
+#POUR V2
+edges_hub_cantine_7 = route_hub_cantine_7.edges
+edges_cantine_7_cantine_2 = route_cantine_7_cantine_2.edges
+edges_cantine_2_cantine_1 = route_cantine_2_cantine_1.edges
+edges_cantine_1_hub = route_cantine_1_hub.edges
+
+routes.append({'route': "route_hub_cantine_7", 'edges': edges_hub_cantine_7})
+routes.append({'route': "route_cantine_7_cantine_2", 'edges': edges_cantine_7_cantine_2})
+routes.append({'route': "route_cantine_2_cantine_1", 'edges': edges_cantine_2_cantine_1})
+routes.append({'route': "route_cantine_1_hub", 'edges': edges_cantine_1_hub})
+
+edges_v2 = edges_hub_cantine_7 + edges_cantine_7_cantine_2 + edges_cantine_2_cantine_1 + edges_cantine_1_hub
+tournees.append({'tournee': "tournee_v2", 'edges': edges_v2})
+
+#POUR V3
+edges_hub_cantine_9 = route_hub_cantine_9.edges
+edges_cantine_9_cantine_5 = route_cantine_9_cantine_5.edges
+edges_cantine_5_cantine_3 = route_cantine_5_cantine_3.edges
+edges_cantine_3_hub = route_cantine_3_hub.edges
+
+routes.append({'route': "route_hub_cantine_9", 'edges': edges_hub_cantine_9})
+routes.append({'route': "route_cantine_9_cantine_5", 'edges': edges_cantine_9_cantine_5})
+routes.append({'route': "route_cantine_5_cantine_3", 'edges': edges_cantine_5_cantine_3})
+routes.append({'route': "route_cantine_3_hub", 'edges': edges_cantine_3_hub})
+
+edges_v3 = edges_hub_cantine_9 + edges_cantine_9_cantine_5 + edges_cantine_5_cantine_3 + edges_cantine_3_hub
+tournees.append({'tournee': "tournee_v3", 'edges': edges_v3})
+
 # # Enregistrer la liste des edges dans un fichier JSON
 # with open("routes.json", "w") as f:
 #     json.dump(routes, f, indent=4)
 
+# Enregistrer la liste des edges dans un fichier JSON
+# with open("lesTournees.json", "w") as f:
+#     json.dump(tournees, f, indent=4)
+#
 # Chargement du fichier routes.json
-with open("routes.json", "r") as f:
-    data_routes = json.load(f)
+with open("lesTournees.json", "r") as f:
+    data_tournee = json.load(f)
 
-route_id = ""
+tournee_id = ""
 edges = []
-for route in data_routes['routes']:
-    route_id = route["route"]
-    edges = route["edges"]
-    route_1 = traci.route.add(route_id, edges)
+for tournee in data_tournee['tournees']:
+    tournee_id = "route_{}".format(tournee["tournee"])
+    edges = tournee["edges"]
+    traci.route.add(tournee_id, edges)
 
-print(traci.route.getEdges(route_id))
+print(traci.route.getIDList())
 
 # Ajouter trois véhicules à la position du hub avec une vitesse de 30 km/h
-for i in range(3):
-    vehicle_id = "V{}".format(i + 1)
-    route_id = "route_hub_cantine_1"
-    # Ajouter le véhicule à SUMO
-    traci.vehicle.add(vehicle_id, route_id, depart="0")
-    print(vehicle_id)
-    print(traci.vehicle.getRouteID(vehicle_id))
+id_v1 = "V1"
+id_v2 = "V2"
+id_v3 = "V3"
+route_id_v1 = "route_tournee_v1"
+route_id_v2 = "route_tournee_v2"
+route_id_v3 = "route_tournee_v3"
+
+traci.vehicle.add(id_v1, route_id_v1, depart="0")
+traci.vehicle.add(id_v2, route_id_v2, depart="0")
+traci.vehicle.add(id_v3, route_id_v3, depart="0")
 
 
+
+print(traci.vehicle.getTypeID(id_v1))
 
 
 
 # exécution de la simulation pendant quelques secondes
-for i in range(1000):
+for i in range(10):
     traci.simulationStep()
-    print(traci.vehicle.getIDList())
+   # print(traci.vehicle.getIDList())
 
 
 # Fermer la connexion à la simulation
