@@ -21,7 +21,6 @@ traci.start(sumoCmd)
 # Change l'affichage de la vue 0 de SUMO pour qu'elle corresponde au "monde réel"
 traci.gui.setSchema("View #0", "real world")
 
-
 # Lecture des données à partir du fichier JSON
 with open('adresses.json', 'r') as f:
     data = json.load(f)
@@ -45,14 +44,15 @@ z = 20
 idPolygon = "polygon"
 for coord in coords_data['coordonnees']:
     # Définir les coordonnées du polygone
-    polygon_coords = [(coord['y'] - z, coord['x'] - z), (coord['y'] - z, coord['x'] + z), (coord['y'] + z, coord['x'] + z), (coord['y'] + z, coord['x'] - z)]
+    polygon_coords = [(coord['y'] - z, coord['x'] - z), (coord['y'] - z, coord['x'] + z),
+                      (coord['y'] + z, coord['x'] + z), (coord['y'] + z, coord['x'] - z)]
     # Ajouter le polygone à la simulation SUMO
-    idPolygon = "p_"+""+coord['adresse']
-    if(coord['adresse'] == "Hub"):
+    idPolygon = "p_" + "" + coord['adresse']
+    if (coord['adresse'] == "Hub"):
         traci.polygon.add(idPolygon, polygon_coords, color=(0, 0, 255), fill=True, polygonType=coord['adresse'])
     else:
-        traci.polygon.add(idPolygon, polygon_coords, color=(255, 0, 0), fill=True,  polygonType=coord['adresse'])
-    #print(idPolygon)
+        traci.polygon.add(idPolygon, polygon_coords, color=(255, 0, 0), fill=True, polygonType=coord['adresse'])
+    # print(idPolygon)
 
 # def find_nearest_junction(x, y):
 #     nearest_distance = float('inf')
@@ -86,26 +86,22 @@ for coord in coords_data['coordonnees']:
 with open("edge.json") as f:
     data_edge = json.load(f)
 
-
-
-
-#pour v1
+# pour v1
 route_hub_cantine_6 = []
 route_cantine_6_cantine_10 = []
 route_cantine_10_cantine_8 = []
 route_cantine_8_cantine_4 = []
 route_cantine_4_hub = []
-#pour v2
+# pour v2
 route_hub_cantine_7 = []
 route_cantine_7_cantine_2 = []
 route_cantine_2_cantine_1 = []
 route_cantine_1_hub = []
-#pour v3
+# pour v3
 route_hub_cantine_9 = []
 route_cantine_9_cantine_5 = []
 route_cantine_5_cantine_3 = []
 route_cantine_3_hub = []
-
 
 hub_edge_id = ""
 cantine1_edge_id = ""
@@ -143,39 +139,29 @@ for edge in data_edge['edges']:
     elif edge["adresse"] == "Cantine 10":
         cantine10_edge_id = edge["edge_id"]
 
-#POUR V1
+# POUR V1
 route_hub_cantine_6 = traci.simulation.findRoute(hub_edge_id, cantine6_edge_id)
-route_cantine_6_cantine_10 = traci.simulation.findRoute( cantine6_edge_id,cantine10_edge_id)
-route_cantine_10_cantine_8 = traci.simulation.findRoute( cantine10_edge_id,cantine8_edge_id)
-route_cantine_8_cantine_4 = traci.simulation.findRoute( cantine8_edge_id,cantine4_edge_id)
-route_cantine_4_hub = traci.simulation.findRoute( cantine4_edge_id, hub_edge_id)
+route_cantine_6_cantine_10 = traci.simulation.findRoute(cantine6_edge_id, cantine10_edge_id)
+route_cantine_10_cantine_8 = traci.simulation.findRoute(cantine10_edge_id, cantine8_edge_id)
+route_cantine_8_cantine_4 = traci.simulation.findRoute(cantine8_edge_id, cantine4_edge_id)
+route_cantine_4_hub = traci.simulation.findRoute(cantine4_edge_id, hub_edge_id)
 
-# print(route_hub_cantine_6)
-# print(route_cantine_6_cantine_10)
-# print(route_cantine_10_cantine_8)
-# print(route_cantine_8_cantine_4)
-# print(route_cantine_4_hub)
-#POUR V2
+# POUR V2
 route_hub_cantine_7 = traci.simulation.findRoute(hub_edge_id, cantine7_edge_id)
-route_cantine_7_cantine_2 = traci.simulation.findRoute( cantine7_edge_id,cantine2_edge_id)
-route_cantine_2_cantine_1 = traci.simulation.findRoute( cantine2_edge_id,cantine1_edge_id)
-route_cantine_1_hub = traci.simulation.findRoute( cantine1_edge_id, hub_edge_id)
+route_cantine_7_cantine_2 = traci.simulation.findRoute(cantine7_edge_id, cantine2_edge_id)
+route_cantine_2_cantine_1 = traci.simulation.findRoute(cantine2_edge_id, cantine1_edge_id)
+route_cantine_1_hub = traci.simulation.findRoute(cantine1_edge_id, hub_edge_id)
 
-#POUR V3
+# POUR V3
 route_hub_cantine_9 = traci.simulation.findRoute(hub_edge_id, cantine9_edge_id)
 route_cantine_9_cantine_5 = traci.simulation.findRoute(cantine9_edge_id, cantine5_edge_id)
 route_cantine_5_cantine_3 = traci.simulation.findRoute(cantine5_edge_id, cantine3_edge_id)
 route_cantine_3_hub = traci.simulation.findRoute(cantine3_edge_id, hub_edge_id)
 
-
-
-
-
-
+# Récupérer la liste des edges de la route
 routes = []
 tournees = []
-# Récupérer la liste des edges de la route
-#POUR V1
+# POUR V1
 edges_hub_cantine_6 = route_hub_cantine_6.edges
 edges_cantine_6_cantine_10 = route_cantine_6_cantine_10.edges
 edges_cantine_10_cantine_8 = route_cantine_10_cantine_8.edges
@@ -188,10 +174,10 @@ routes.append({'route': "route_cantine_10_cantine_8", 'edges': edges_cantine_10_
 routes.append({'route': "route_cantine_8_cantine_4", 'edges': edges_cantine_8_cantine_4})
 routes.append({'route': "route_cantine_4_hub", 'edges': edges_cantine_4_hub})
 
-edges_v1 =edges_hub_cantine_6 + edges_cantine_6_cantine_10 + edges_cantine_10_cantine_8 + edges_cantine_8_cantine_4 + edges_cantine_4_hub
+edges_v1 = edges_hub_cantine_6 + edges_cantine_6_cantine_10 + edges_cantine_10_cantine_8 + edges_cantine_8_cantine_4 + edges_cantine_4_hub
 tournees.append({'tournee': "tournee_v1", 'edges': edges_v1})
 
-#POUR V2
+# POUR V2
 edges_hub_cantine_7 = route_hub_cantine_7.edges
 edges_cantine_7_cantine_2 = route_cantine_7_cantine_2.edges
 edges_cantine_2_cantine_1 = route_cantine_2_cantine_1.edges
@@ -205,7 +191,7 @@ routes.append({'route': "route_cantine_1_hub", 'edges': edges_cantine_1_hub})
 edges_v2 = edges_hub_cantine_7 + edges_cantine_7_cantine_2 + edges_cantine_2_cantine_1 + edges_cantine_1_hub
 tournees.append({'tournee': "tournee_v2", 'edges': edges_v2})
 
-#POUR V3
+# POUR V3
 edges_hub_cantine_9 = route_hub_cantine_9.edges
 edges_cantine_9_cantine_5 = route_cantine_9_cantine_5.edges
 edges_cantine_5_cantine_3 = route_cantine_5_cantine_3.edges
@@ -226,8 +212,9 @@ tournees.append({'tournee': "tournee_v3", 'edges': edges_v3})
 # Enregistrer la liste des edges dans un fichier JSON
 # with open("lesTournees.json", "w") as f:
 #     json.dump(tournees, f, indent=4)
-#
-# Chargement du fichier routes.json
+
+
+# Chargement du fichier lesTournees.json
 with open("lesTournees.json", "r") as f:
     data_tournee = json.load(f)
 
@@ -248,20 +235,41 @@ route_id_v1 = "route_tournee_v1"
 route_id_v2 = "route_tournee_v2"
 route_id_v3 = "route_tournee_v3"
 
-traci.vehicle.add(id_v1, route_id_v1, depart="0")
-traci.vehicle.add(id_v2, route_id_v2, depart="0")
-traci.vehicle.add(id_v3, route_id_v3, depart="0")
 
+veh_type = "veh_electric"
+class_type = "cl_electric"
 
-
-print(traci.vehicle.getTypeID(id_v1))
-
+traci.vehicle.add(id_v1, route_id_v1, typeID=veh_type, departSpeed="8.333")
+traci.vehicle.add(id_v2, route_id_v2, typeID=veh_type, departSpeed="8.333")
+traci.vehicle.add(id_v3, route_id_v3, typeID=veh_type, departSpeed="8.333")
 
 
 # exécution de la simulation pendant quelques secondes
-for i in range(10):
+for i in range(1000):
     traci.simulationStep()
-   # print(traci.vehicle.getIDList())
+    #print(traci.vehicle.getIDList())
+
+    #print(traci.vehicle.getSpeed(id_v1))
+
+    # # Change le type de tous les véhicules en véhicule électrique
+    # for veh_type_id in traci.vehicletype.getIDList():
+    #     if veh_type_id == veh_type:
+    #         traci.vehicletype.setVehicleClass(veh_type, class_type)
+    # for veh_type_id in traci.vehicle.getIDList():
+    #     if veh_type_id == id_v1 or veh_type_id == id_v2 or veh_type_id == id_v3:
+    #         mWh = traci.vehicle.getDistance() / float(traci.vehicle.getParameter(veh_type_id, "device.battery.totalEnergyConsumed"))
+    #         remainingRange = float(traci.vehicle.getParameter(veh_type_id, "device.battery.actualBatteryCapacity")) * mWh
+    #         print("la consommation de la batterie :", traci.vehicle.getElectricityConsumption(veh_type_id))
+    #         print("Pourcentage de Batterie restante :", remainingRange)
+
+    # mWh = traci.vehicle.getDistance(id_v1) / float(traci.vehicle.getParameter(id_v1, "device.battery.totalEnergyConsumed"))
+    # remainingRange = float(traci.vehicle.getParameter(id_v1, "device.battery.actualBatteryCapacity")) * mWh
+
+    #print("la consommation de la batterie :", traci.vehicle.getElectricityConsumption(id_v1))
+    #print("Pourcentage de Batterie restante :", remainingRange)
+
+    #print(traci.vehicle.getParameter(id_v1))
+
 
 
 # Fermer la connexion à la simulation

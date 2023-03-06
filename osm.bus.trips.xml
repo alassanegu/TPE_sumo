@@ -54,6 +54,7 @@
 
 <routes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/routes_file.xsd">
     <vType id="bus_bus" vClass="bus"/>
+    <vType id="veh_electric" maxSpeed="8.33" color="white" emissionClass="Energy/unknown" />
     <trip id="bus0" type="bus_bus" depart="0.00" departLane="best" from="-270483375#1" to="-114197671#2"/>
     <trip id="bus1" type="bus_bus" depart="1.53" departLane="best" departSpeed="max" from="-71834090" to="-50655177#1"/>
     <trip id="bus2" type="bus_bus" depart="3.07" departLane="best" from="537772770#1" to="47707315#12"/>

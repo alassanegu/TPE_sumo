@@ -11,6 +11,13 @@
         <additional-files value="osm.poly.xml.gz"/>
     </input>
 
+    <output>
+        <battery-output value="Battery.out.xml"/>
+        <battery-output.precision value="4"/>
+        <device.battery.probability value="1"/>
+        <summary-output value="summary_100.xml"/>
+    </output>
+
     <processing>
         <ignore-route-errors value="true"/>
     </processing>
