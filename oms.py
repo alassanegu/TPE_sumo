@@ -12,7 +12,6 @@ else:
 # Importe les modules TraCI et les constantes de TraCI
 import traci
 import traci.constants
-import math
 
 # Démarre SUMO avec la configuration osm.sumocfg et affiche la fenêtre graphique
 sumoCmd = ["sumo-gui", "-c", "osm.sumocfg", "--start"]
@@ -245,32 +244,29 @@ traci.vehicle.add(id_v3, route_id_v3, typeID=veh_type, departSpeed="8.333")
 
 
 # exécution de la simulation pendant quelques secondes
-for i in range(1000):
+for i in range(500):
     traci.simulationStep()
-    #print(traci.vehicle.getIDList())
 
-    #print(traci.vehicle.getSpeed(id_v1))
+    # print(traci.vehicle.getIDList())
+    # print(traci.vehicle.getSpeed(id_v1))
 
-    # # Change le type de tous les véhicules en véhicule électrique
-    # for veh_type_id in traci.vehicletype.getIDList():
-    #     if veh_type_id == veh_type:
-    #         traci.vehicletype.setVehicleClass(veh_type, class_type)
-    # for veh_type_id in traci.vehicle.getIDList():
-    #     if veh_type_id == id_v1 or veh_type_id == id_v2 or veh_type_id == id_v3:
-    #         mWh = traci.vehicle.getDistance() / float(traci.vehicle.getParameter(veh_type_id, "device.battery.totalEnergyConsumed"))
-    #         remainingRange = float(traci.vehicle.getParameter(veh_type_id, "device.battery.actualBatteryCapacity")) * mWh
-    #         print("la consommation de la batterie :", traci.vehicle.getElectricityConsumption(veh_type_id))
-    #         print("Pourcentage de Batterie restante :", remainingRange)
+    for veh_type_id in traci.vehicle.getIDList():
+        if veh_type_id == id_v1 or veh_type_id == id_v2 or veh_type_id == id_v3:
 
-    # mWh = traci.vehicle.getDistance(id_v1) / float(traci.vehicle.getParameter(id_v1, "device.battery.totalEnergyConsumed"))
-    # remainingRange = float(traci.vehicle.getParameter(id_v1, "device.battery.actualBatteryCapacity")) * mWh
+            print("La vitesse de ", veh_type_id, " : ", traci.vehicle.getSpeed(veh_type_id))
 
-    #print("la consommation de la batterie :", traci.vehicle.getElectricityConsumption(id_v1))
-    #print("Pourcentage de Batterie restante :", remainingRange)
-
-    #print(traci.vehicle.getParameter(id_v1))
-
-
+            total_energy_consumed = float(traci.vehicle.getParameter(veh_type_id, "device.battery.totalEnergyConsumed"))
+            electricity_consumption = traci.vehicle.getElectricityConsumption(veh_type_id)
+            if total_energy_consumed != 0:
+                mWh = traci.vehicle.getDistance(veh_type_id) / total_energy_consumed
+                remainingRange = float(traci.vehicle.getParameter(id_v1, "device.battery.actualBatteryCapacity")) * mWh
+                print("La valeur du paramètre donné pour ", veh_type_id, " : ", total_energy_consumed)
+                print("La distance parcourue par ", veh_type_id, " : ", traci.vehicle.getDistance(veh_type_id))
+                print("La consommation d'énergie de ", veh_type_id, " : ", mWh)
+                print("Pourcentage de Batterie restante :", remainingRange)
+                print("la consommation d'électricité en Wh/s de ", veh_type_id, ":", electricity_consumption)
+            else:
+                print("La valeur du paramètre donné pour ", veh_type_id, " est égale à zéro")
 
 # Fermer la connexion à la simulation
 traci.close()
