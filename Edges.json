@@ -1,0 +1,48 @@
+{
+    "edges": [
+        {
+            "adresse": "Hub",
+            "edges_id": "-477905606#15"
+        },
+        {
+            "adresse": "Cantine 1",
+            "edges_id": "-70726939#2"
+        },
+        {
+            "adresse": "Cantine 2",
+            "edges_id": "-196637993#7"
+        },
+        {
+            "adresse": "Cantine 3",
+            "edges_id": "538744099#1"
+        },
+        {
+            "adresse": "Cantine 4",
+            "edges_id": "243182901#1"
+        },
+        {
+            "adresse": "Cantine 5",
+            "edges_id": "-23115867#0"
+        },
+        {
+            "adresse": "Cantine 6",
+            "edges_id": "-207348746#1"
+        },
+        {
+            "adresse": "Cantine 7",
+            "edges_id": "-22895529#2"
+        },
+        {
+            "adresse": "Cantine 8",
+            "edges_id": "-101812551#2"
+        },
+        {
+            "adresse": "Cantine 9",
+            "edges_id": "-114197714"
+        },
+        {
+            "adresse": "Cantine 10",
+            "edges_id": "-82717238#1"
+        }
+    ]
+}

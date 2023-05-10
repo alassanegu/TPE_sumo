@@ -1,8 +1,8 @@
-import gzip
 import json
-import os
-import sys
-import xml.etree.ElementTree as ET
+import os, sys
+import matplotlib.pyplot as plt
+
+import time
 
 # Vérifie si l'environnement SUMO_HOME est défini
 if 'SUMO_HOME' in os.environ:
@@ -12,6 +12,7 @@ else:
     sys.exit("Veuillez déclarer la variable d'environnement 'SUMO_HOME'")
 
 # Importe les modules TraCI et les constantes de TraCI
+import traci
 import traci.constants
 
 # Démarre SUMO avec la configuration osm.sumocfg et affiche la fenêtre graphique
@@ -54,42 +55,6 @@ for coord in coords_data['coordonnees']:
         traci.polygon.add(idPolygon, polygon_coords, color=(255, 0, 0), fill=True, polygonType=coord['adresse'])
     # print(idPolygon)
 
-# print("Edge", traci.edge.getIDList())
-#
-# print("Position edge", traci.simulation.convert2D(":cluster_922917470_922978325_2", True))
-#
-# for i in traci.edge.getIDList():
-#     print(i, traci.simulation.convert2D(i, False))
-
-# def find_nearest_edges(x, y):
-#     nearest_distance = float('inf')
-#     nearest_edges = None
-#     for edg in traci.edge.getIDList():
-#         edge_coords = traci.simulation.convert2D(edg, False)
-#         dist = ((edge_coords[0] - y) ** 2 + (edge_coords[1] - x) ** 2) ** 0.5
-#         if dist < nearest_distance:
-#             nearest_distance = dist
-#             nearest_edges = edg
-#
-#     return nearest_edges
-
-# edges = []
-# # Parcours des coordonnées pour trouver la jonction la plus proche
-# for coord in coords_data['coordonnees']:
-#     x = coord['x']
-#     y = coord['y']
-#     adresse = coord['adresse']
-#     nearest_edges = find_nearest_edges(x, y)
-#     edges.append({'adresse': adresse, 'x': x, 'y': y, 'edges_id': nearest_edges})
-#     print(adresse, " ==>", nearest_edges)
-#     print("Position edges ", adresse, " est : ", traci.simulation.convert2D(nearest_edges, False))
-#     print("Position ", adresse, " est : (", y, ", ", x)
-#
-# # Écriture des nouvelles coordonnées dans un nouveau fichier JSON
-# with open('adressEdges.json', 'w') as f:
-#     json.dump(edges, f, indent=4)
-
-
 # def find_nearest_junction(x, y):
 #     nearest_distance = float('inf')
 #     nearest_junction = None
@@ -111,36 +76,12 @@ for coord in coords_data['coordonnees']:
 #     adresse = coord['adresse']
 #     nearest_junction = find_nearest_junction(x, y)
 #     juncts.append({'adresse': adresse, 'x': x, 'y': y, 'junction_id': nearest_junction})
-#     #print(adresse, " ==>", nearest_junction)
-#     #print("Position junction ", adresse, " est : ", traci.junction.getPosition(nearest_junction))
-
-# Écriture des nouvelles coordonnées dans un nouveau fichier JSON
+#     print(adresse, " ==>", nearest_junction)
+#     print("Position junction ", adresse, " est : ", traci.junction.getPosition(nearest_junction))
+#
+# # Écriture des nouvelles coordonnées dans un nouveau fichier JSON
 # with open('adressJunction.json', 'w') as f:
 #     json.dump(juncts, f, indent=4)
-
-
-# def getEdgeFromJonction(file, junction):
-#     with gzip.open(file, 'r') as f:
-#         xml_content = f.read()
-#         root = ET.fromstring(xml_content)
-#     for element in root.iter():
-#         if element.attrib.get("from") == junction:
-#             return element.attrib.get("id")
-#
-#
-# # Charger le fichier edge.json
-# with open("adressJunction.json") as f:
-#     adressJunction = json.load(f)
-#
-# edges = []
-# # Parcourir les edges et récupérer les edges correspondantes
-# for junction in adressJunction['junctions']:
-#     idJunction = junction["junction_id"]
-#     adresse = junction["adresse"]
-#     edges.append({'adresse': adresse, 'edges_id': getEdgeFromJonction('osm.net.xml.gz', idJunction)})
-# Écriture des nouvelles coordonnées dans un nouveau fichier JSON
-# with open('Edges.json', 'w') as f:
-#     json.dump(edges, f, indent=4)
 
 # Charger le fichier edge.json
 with open("edge.json") as f:
@@ -285,14 +226,17 @@ for tournee in data_tournee['tournees']:
     edges = tournee["edges"]
     traci.route.add(tournee_id, edges)
 
+print(traci.route.getIDList())
+
 # Ajouter trois véhicules à la position du hub avec une vitesse de 30 km/h
 id_v1 = "V1"
 id_v2 = "V2"
 id_v3 = "V3"
-id_vT = "VT"
+id_vehThermique = "VehThermique"
 route_id_v1 = "route_tournee_v1"
 route_id_v2 = "route_tournee_v2"
 route_id_v3 = "route_tournee_v3"
+
 
 veh_type = "veh_electric"
 class_type = "cl_electric"
@@ -300,40 +244,93 @@ class_type = "cl_electric"
 traci.vehicle.add(id_v1, route_id_v1, typeID=veh_type, departSpeed="8.333")
 traci.vehicle.add(id_v2, route_id_v2, typeID=veh_type, departSpeed="8.333")
 traci.vehicle.add(id_v3, route_id_v3, typeID=veh_type, departSpeed="8.333")
-traci.vehicle.add(id_vT, route_id_v1, departSpeed="8.333")
+traci.vehicle.add(id_vehThermique, route_id_v1, departSpeed="8.333")
+
+# ouverture du fichier pour écrire les résultats
+with open("EmissionCO2VehThermique.txt", "a") as f:
+    # exécution de la simulation pendant quelques secondes
+    for i in range(100000000):
+        traci.simulationStep()
+
+        for veh_type_id in traci.vehicle.getIDList():
+            #if veh_type_id == id_v1 or veh_type_id == id_v2 or veh_type_id == id_v3:
+            if veh_type_id == id_vehThermique:
+                speeds = 50/3.6
+                #vitess max egal à 50km/h
+                traci.vehicle.setSpeed(veh_type_id, speeds)
+
+                vitesse = traci.vehicle.getSpeed(veh_type_id) * 3.6
+                f.write(f" {traci.vehicle.getDistance(veh_type_id)} {traci.vehicle.getCO2Emission(veh_type_id)}\n")
+
+                # total_energy_consumed = float(traci.vehicle.getParameter(veh_type_id, "device.battery.totalEnergyConsumed"))
+                # electricity_consumption = traci.vehicle.getElectricityConsumption(veh_type_id)
+                # if total_energy_consumed != 0:
+                #     mWh = traci.vehicle.getDistance(veh_type_id) / total_energy_consumed
+                #     remainingRange = float(traci.vehicle.getParameter(id_v1, "device.battery.actualBatteryCapacity")) * mWh
+                #     # f.write(f"La valeur du paramètre donné pour {veh_type_id} : {total_energy_consumed}\n")
+                #     # f.write(f"La distance parcourue par {veh_type_id} : {traci.vehicle.getDistance(veh_type_id)}\n")
+                #     # f.write(f"La consommation d'énergie de {veh_type_id} : {mWh}\n")
+                #     # f.write(f"Pourcentage de Batterie restante : {remainingRange}\n")
+                #     # f.write(f"la consommation d'électricité en Wh/s de {veh_type_id} : {electricity_consumption}\n")
+                #     f.write(f" {traci.vehicle.getDistance(veh_type_id)} {electricity_consumption}\n")
+                # else:
+                #     f.write(f"{traci.vehicle.getDistance(veh_type_id)} 0\n")
 
 
-# exécution de la simulation pendant quelques secondes
-for i in range(30):
-    traci.simulationStep()
-
-    for veh_type_id in traci.vehicle.getIDList():
-        #if veh_type_id == id_v1 or veh_type_id == id_v2 or veh_type_id == id_v3:
-        if veh_type_id == id_vT:
-            speeds = 50 / 3.6
-            # vitess max egal à 50km/h
-            traci.vehicle.setSpeed(veh_type_id, speeds)
-
-            vitesse = traci.vehicle.getSpeed(veh_type_id) * 3.6
-            print("La vitesse de ", veh_type_id, " : ", vitesse)
-
-            print("Renvoie l'émission de CO2 en mg/s pour le dernier pas de temps.",
-                  traci.vehicle.getCO2Emission(veh_type_id))
-
-            # total_energy_consumed = float(traci.vehicle.getParameter(veh_type_id, "device.battery.totalEnergyConsumed"))
-            # electricity_consumption = traci.vehicle.getElectricityConsumption(veh_type_id)
-            # if total_energy_consumed != 0:
-            #     mWh = traci.vehicle.getDistance(veh_type_id) / total_energy_consumed
-            #     remainingRange = float(traci.vehicle.getParameter(id_v1, "device.battery.actualBatteryCapacity")) * mWh
-            #     print("La valeur du paramètre donné pour ", veh_type_id, " : ", total_energy_consumed)
-            #     print("La distance parcourue par ", veh_type_id, " : ", traci.vehicle.getDistance(veh_type_id))
-            #     print("La consommation d'énergie de ", veh_type_id, " : ", mWh)
-            #     print("Pourcentage de Batterie restante :", remainingRange)
-            #     print("la consommation d'électricité en Wh/s de ", veh_type_id, ":", electricity_consumption)
-            # else:
-            #     print("La valeur du paramètre donné pour ", veh_type_id, " est égale à zéro")
 
 
+
+
+
+#
+# # Chargement des données
+# with open('ConsomationEnergieV1.txt', 'r') as f:
+#     data = f.readlines()
+#
+# # Extraction des données de vitesse et de consommation d'énergie
+# vitesse1 = []
+# consommation1 = []
+# for line in data:
+#     tokens = line.split()
+#     vitesse1.append(float(tokens[0]))
+#     consommation1.append(float(tokens[1]))
+#
+#
+# # Chargement des données
+# with open('ConsomationEnergieV2.txt', 'r') as f:
+#     data = f.readlines()
+#
+# # Extraction des données de vitesse et de consommation d'énergie
+# vitesse2 = []
+# consommation2 = []
+# for line in data:
+#     tokens = line.split()
+#     vitesse2.append(float(tokens[0]))
+#     consommation2.append(float(tokens[1]))
+#
+# # Chargement des données
+# with open('ConsomationEnergieV3.txt', 'r') as f:
+#     data = f.readlines()
+#
+# # Extraction des données de vitesse et de consommation d'énergie
+# vitesse3 = []
+# consommation3 = []
+# for line in data:
+#     tokens = line.split()
+#     vitesse3.append(float(tokens[0]))
+#     consommation3.append(float(tokens[1]))
+#
+# # Création du graphique
+# plt.plot(vitesse1, consommation1, label='Simulation V1')
+# plt.plot(vitesse2, consommation2, label='Simulation V2')
+# plt.plot(vitesse3, consommation3, label='Simulation v3')
+# plt.xlabel('Vitesse (km/h)')
+# plt.ylabel('Consommation d\'énergie (Wh/km)')
+# plt.title('Consommation d\'énergie en fonction de la vitesse du véhicule')
+# plt.legend()
+# plt.show()
 
 # Fermer la connexion à la simulation
 traci.close()
+
+
