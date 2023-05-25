@@ -33,7 +33,7 @@ with open('adresses.json', 'r') as f:
 #
 # # Écriture des nouvelles coordonnées dans un nouveau fichier JSON
 # with open('coords.json', 'w') as f:
-#     json.dump(coords, f, indent=4)
+#    json.dump({"coordonnees" : coords}, f, indent=4)
 
 
 # Chargement du fichier coords.json
@@ -54,10 +54,7 @@ for coord in coords_data['coordonnees']:
         traci.polygon.add(idPolygon, polygon_coords, color=(255, 0, 0), fill=True, polygonType=coord['adresse'])
     # print(idPolygon)
 
-# print("Edge", traci.edge.getIDList())
-#
-# print("Position edge", traci.simulation.convert2D(":cluster_922917470_922978325_2", True))
-#
+
 # for i in traci.edge.getIDList():
 #     print(i, traci.simulation.convert2D(i, False))
 
@@ -87,7 +84,7 @@ for coord in coords_data['coordonnees']:
 #
 # # Écriture des nouvelles coordonnées dans un nouveau fichier JSON
 # with open('adressEdges.json', 'w') as f:
-#     json.dump(edges, f, indent=4)
+#     json.dump({"edges" : edges}, f, indent=4)
 
 
 # def find_nearest_junction(x, y):
@@ -235,7 +232,7 @@ routes.append({'route': "route_cantine_8_cantine_4", 'edges': edges_cantine_8_ca
 routes.append({'route': "route_cantine_4_hub", 'edges': edges_cantine_4_hub})
 
 edges_v1 = edges_hub_cantine_6 + edges_cantine_6_cantine_10 + edges_cantine_10_cantine_8 + edges_cantine_8_cantine_4 + edges_cantine_4_hub
-tournees.append({'tournee': "tournee_v1", 'edges': edges_v1})
+tournees.append({'tournee': "tournee_v1", 'edges1': edges_v1})
 
 # POUR V2
 edges_hub_cantine_7 = route_hub_cantine_7.edges
@@ -249,7 +246,7 @@ routes.append({'route': "route_cantine_2_cantine_1", 'edges': edges_cantine_2_ca
 routes.append({'route': "route_cantine_1_hub", 'edges': edges_cantine_1_hub})
 
 edges_v2 = edges_hub_cantine_7 + edges_cantine_7_cantine_2 + edges_cantine_2_cantine_1 + edges_cantine_1_hub
-tournees.append({'tournee': "tournee_v2", 'edges': edges_v2})
+tournees.append({'tournee': "tournee_v2", 'edges2': edges_v2})
 
 # POUR V3
 edges_hub_cantine_9 = route_hub_cantine_9.edges
@@ -263,15 +260,15 @@ routes.append({'route': "route_cantine_5_cantine_3", 'edges': edges_cantine_5_ca
 routes.append({'route': "route_cantine_3_hub", 'edges': edges_cantine_3_hub})
 
 edges_v3 = edges_hub_cantine_9 + edges_cantine_9_cantine_5 + edges_cantine_5_cantine_3 + edges_cantine_3_hub
-tournees.append({'tournee': "tournee_v3", 'edges': edges_v3})
+tournees.append({'tournee': "tournee_v3", 'edges3': edges_v3})
 
 # # Enregistrer la liste des edges dans un fichier JSON
 # with open("routes.json", "w") as f:
-#     json.dump(routes, f, indent=4)
+#     json.dump({"routes" : routes}, f, indent=4)
 
-# Enregistrer la liste des edges dans un fichier JSON
+# #Enregistrer la liste des edges dans un fichier JSON
 # with open("lesTournees.json", "w") as f:
-#     json.dump(tournees, f, indent=4)
+#     json.dump({"tournees":tournees}, f, indent=4)
 
 
 # Chargement du fichier lesTournees.json
@@ -320,18 +317,18 @@ for i in range(30):
             print("Renvoie l'émission de CO2 en mg/s pour le dernier pas de temps.",
                   traci.vehicle.getCO2Emission(veh_type_id))
 
-            # total_energy_consumed = float(traci.vehicle.getParameter(veh_type_id, "device.battery.totalEnergyConsumed"))
-            # electricity_consumption = traci.vehicle.getElectricityConsumption(veh_type_id)
-            # if total_energy_consumed != 0:
-            #     mWh = traci.vehicle.getDistance(veh_type_id) / total_energy_consumed
-            #     remainingRange = float(traci.vehicle.getParameter(id_v1, "device.battery.actualBatteryCapacity")) * mWh
-            #     print("La valeur du paramètre donné pour ", veh_type_id, " : ", total_energy_consumed)
-            #     print("La distance parcourue par ", veh_type_id, " : ", traci.vehicle.getDistance(veh_type_id))
-            #     print("La consommation d'énergie de ", veh_type_id, " : ", mWh)
-            #     print("Pourcentage de Batterie restante :", remainingRange)
-            #     print("la consommation d'électricité en Wh/s de ", veh_type_id, ":", electricity_consumption)
-            # else:
-            #     print("La valeur du paramètre donné pour ", veh_type_id, " est égale à zéro")
+            total_energy_consumed = float(traci.vehicle.getParameter(veh_type_id, "device.battery.totalEnergyConsumed"))
+            electricity_consumption = traci.vehicle.getElectricityConsumption(veh_type_id)
+            if total_energy_consumed != 0:
+                mWh = traci.vehicle.getDistance(veh_type_id) / total_energy_consumed
+                remainingRange = float(traci.vehicle.getParameter(id_v1, "device.battery.actualBatteryCapacity")) * mWh
+                print("La valeur du paramètre donné pour ", veh_type_id, " : ", total_energy_consumed)
+                print("La distance parcourue par ", veh_type_id, " : ", traci.vehicle.getDistance(veh_type_id))
+                print("La consommation d'énergie de ", veh_type_id, " : ", mWh)
+                print("Pourcentage de Batterie restante :", remainingRange)
+                print("la consommation d'électricité en Wh/s de ", veh_type_id, ":", electricity_consumption)
+            else:
+                print("La valeur du paramètre donné pour ", veh_type_id, " est égale à zéro")
 
 
 
